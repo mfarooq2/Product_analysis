@@ -34,8 +34,17 @@ This project implements a product search and comparison tool. It leverages web s
 
 ## Getting Started
 
-To get started, simply run the `agent1.py` script. The main function `search_and_compare` will perform a search and comparison for a hardcoded query.
-To change the query you need to modify the code.
+To get started, follow these steps:
+
+1. Install the required dependencies:
+
+       pip install -r requirements.txt
+
+2. Run the script using:
+
+       python agent1.py
+
+The script's main function, search_and_compare, performs a product search and comparison for a hardcoded query. Modify the query in the code as needed.
 
 ## Contributing
 
