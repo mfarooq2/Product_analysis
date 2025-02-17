@@ -110,14 +110,16 @@ class TestProductSearchTool(unittest.TestCase):
     def test_search_platform(self):
         query = "test"
         platforms = [TestAmazon().amazon, TestEbay().ebay, TestBestBuy().bestbuy]
-        expected_result = [{"title": "Test Title", "price": 100.00, "url": "https://www.amazon.com/test"}, {"title": "Test Title", "price": 100.00, "url": "https://www.ebay.com/test"}, {"title": "Test Title", "price": 100.00, "url": "https://www.bestbuy.com/test"}]
-        with patch.object(self.product_search_tool, "_search_platform", side_effect=[TestAmazon().amazon.parse_search_results, TestEbay().ebay.parse_search_results, TestBestBuy().bestbuy.parse_search_results]):
-            result = self.product_search_tool._search_platform(platforms[0], query)
-            self.assertEqual(result, expected_result[0:1])
-            result = self.product_search_tool._search_platform(platforms[1], query)
-            self.assertEqual(result, expected_result[1:2])
-            result = self.product_search_tool._search_platform(platforms[2], query)
-            self.assertEqual(result, expected_result[2:3])
+        expected_results = [
+            {"title": "Test Title", "price": 100.00, "url": "https://www.amazon.com/test"},
+            {"title": "Test Title", "price": 100.00, "url": "https://www.ebay.com/test"},
+            {"title": "Test Title", "price": 100.00, "url": "https://www.bestbuy.com/test"}
+        ]
+        for platform, expected in zip(platforms, expected_results):
+            with patch.object(platform, "make_request", return_value="dummy raw response"):
+                with patch.object(platform, "parse_search_results", return_value=expected):
+                    result = self.product_search_tool._search_platform(platform, query)
+                    self.assertEqual(result, expected)
 
     def test_search_products(self):
         query = "test"
