@@ -43,6 +43,8 @@ class Platform:
                 if attempt == retries - 1:
                     logger.error(f"All attempts failed for {url}")
                     return None
+                else:
+                    logger.warning(f"Attempt {attempt + 1} failed for {url}: {str(e)}")
         return None
 
     def get_search_url(self, query: str) -> str:
@@ -77,7 +79,7 @@ class Amazon(Platform):
                 )
                 results.append({"title": title, "price": price, "url": url})
             except Exception as e:
-                logger.error(f"Error parsing Amazon result: {str(e)}")
+                logger.error(f"Error parsing Amazon result: {str(e)}", exc_info=True)
         return results
 
 
@@ -106,7 +108,7 @@ class Ebay(Platform):
                 )
                 results.append({"title": title, "price": price, "url": url})
             except Exception as e:
-                logger.error(f"Error parsing eBay result: {str(e)}")
+                logger.error(f"Error parsing eBay result: {str(e)}", exc_info=True)
         return results
 
 
@@ -135,7 +137,7 @@ class BestBuy(Platform):
                 )
                 results.append({"title": title, "price": price, "url": url})
             except Exception as e:
-                logger.error(f"Error parsing Best Buy result: {str(e)}")
+                logger.error(f"Error parsing Best Buy result: {str(e)}", exc_info=True)
         return results
 
 
@@ -151,8 +153,8 @@ class ProductSearchTool:
             url = platform.get_search_url(query)
             html = platform.make_request(url)
             return platform.parse_search_results(html)
-        except Exception as e:
-            logger.error(f"Error searching {platform.name}: {str(e)}")
+        except requests.RequestException as e:
+            logger.error(f"Error searching {platform.name}: {str(e)}", exc_info=True)
             return []
 
     def search_products(self, query: str) -> str:
@@ -170,8 +172,10 @@ class ProductSearchTool:
                     all_results.extend(results)
                 except Exception as e:
                     logger.error(
-                        f"Error getting results from {platform.name}: {str(e)}"
+                        f"Error getting results from {platform.name}: {str(e)}", exc_info=True
                     )
+        if not all_results:
+            logger.info("No results found.")
         return json.dumps(all_results)
 
 
@@ -188,7 +192,7 @@ class ProductComparisonTool:
             response = self.model(prompt)
             return response
         except Exception as e:
-            logger.error(f"Error comparing products: {str(e)}")
+            logger.error(f"Error comparing products: {str(e)}", exc_info=True)
             return f"Error comparing products: {str(e)}"
 
 
@@ -215,9 +219,9 @@ class ProductSearchAgent:
 if __name__ == "__main__":
     # Initialize the Product Search Agent
     agent = ProductSearchAgent()
-
+    query = input("Enter your query: ")
     # Perform a search query
-    query = "gaming laptop under $1500"
+
     result = agent.search_and_compare(query)
 
     # Print the result
