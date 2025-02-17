@@ -7,6 +7,8 @@ This project implements a product search and comparison tool. It leverages web s
 -   **Web Scraping:** Extracts product details from e-commerce websites.
 -   **Product Search:** Allows users to search for products across multiple platforms.
 -   **Product Comparison:** Employs a HuggingFace model to analyze and compare product listings.
+    The model compares various product attributes including descriptions, prices, and reviews.
+    It leverages natural language processing techniques to assess the quality and similarity of product features.
 
 ## Usage
 
