@@ -175,7 +175,7 @@ class ProductSearchTool:
                         f"Error getting results from {platform.name}: {str(e)}", exc_info=True
                     )
         if not all_results:
-            logger.warning("No results found.")
+            logger.info("No results found.")
         return json.dumps(all_results)
 
 
