@@ -185,17 +185,20 @@ class ProductSearchTool:
 class ProductComparisonTool:
     """Tool for comparing and analyzing product search results"""
 
-    def __init__(self, model_name):
-        self.model_name = model_name
+    def __init__(self, model_identifier: str = "gpt-3.5-turbo"):
+        self.model_identifier = model_identifier
 
     def compare_products(self, search_results: str) -> str:
         """Use HuggingFace model for analysis"""
+        if not search_results:
+            raise ValueError("search_results cannot be empty")
         try:
             prompt = f"Analyze the following product listings: {search_results}"
             return f"Comparison result: {prompt}"
         except Exception as e:
             logger.error(f"Error comparing products: {str(e)}", exc_info=True)
             return f"Error comparing products: {str(e)}"
+
 
 
 class ProductSearchAgent:
@@ -217,7 +220,55 @@ class ProductSearchAgent:
         search_results = self.search_tool.search_products(query)
 
         # Now, use the model to compare products
-        comparison_result = self.agent.run(search_results)
+        try:
+            comparison_result = self.agent.run(search_results)
+        except Exception as e:
+            logger.error(f"Error in agent.run: {str(e)}", exc_info=True)
+            return f"Error in agent.run: {str(e)}"
+
+        return comparison_result
+
+class ProductComparisonTool:
+    """Tool for comparing and analyzing product search results"""
+
+    def __init__(self, model_identifier: str = "gpt-3.5-turbo"):
+        self.model_identifier = model_identifier
+
+    def compare_products(self, search_results: str) -> str:
+        """Use HuggingFace model for analysis"""
+        if not search_results:
+            raise ValueError("search_results cannot be empty")
+        try:
+            prompt = f"Analyze the following product listings: {search_results}"
+            return f"Comparison result: {prompt}"
+        except Exception as e:
+            logger.error(f"Error comparing products: {str(e)}", exc_info=True)
+            return f"Error comparing products: {str(e)}"
+
+class ProductSearchAgent:
+    def __init__(self):
+        """Initialize the product search agent with HuggingFace API model"""
+        self.search_tool = ProductSearchTool()
+        self.comparison_tool = ProductComparisonTool("")
+        self.llm = initialize_llm(model_name="google/flan-t5-xxl")
+
+        tools = [
+            StructuredTool.from_function(self.search_tool.search_products, name="Product Search"),
+            StructuredTool.from_function(self.comparison_tool.compare_products, name="Product Comparison"),
+        ]
+        self.agent = initialize_agent(tools, self.llm, AgentType.ZERO_SHOT)
+
+    def search_and_compare(self, query: str) -> str:
+        """Search for products and compare them using HuggingFace model"""
+        # First, search for products
+        search_results = self.search_tool.search_products(query)
+
+        # Now, use the model to compare products
+        try:
+            comparison_result = self.agent.run(search_results)
+        except Exception as e:
+            logger.error(f"Error in agent.run: {str(e)}", exc_info=True)
+            return f"Error in agent.run: {str(e)}"
 
         return comparison_result
 
