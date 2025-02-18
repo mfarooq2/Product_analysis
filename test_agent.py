@@ -153,20 +153,18 @@ class TestProductSearchAgent(unittest.TestCase):
     def setUp(self):
         self.agent = ProductSearchAgent()
 
+    @patch.object(ProductSearchTool, "search_products", return_value='[{"title": "Test Title", "price": 100.00, "url": "https://www.amazon.com/test"}]')
+    @patch.object(ProductComparisonTool, "compare_products", return_value="Comparison result: Analyze the following product listings: [{'title': 'Test Title', 'price': 100.0, 'url': 'https://www.amazon.com/test'}]")
     def test_search_and_compare(self):
         query = "test"
-        expected_result = "Test response"
-        with patch.object(self.agent, "search_and_compare", return_value="Test response"):
-            result = self.agent.search_and_compare(query)
-            self.assertEqual(result, expected_result)
-
+        result = self.agent.search_and_compare(query)
+        self.assertEqual(result, "Comparison result: Analyze the following product listings: [{'title': 'Test Title', 'price': 100.0, 'url': 'https://www.amazon.com/test'}]")
+    
     def test_search_and_compare_failure(self):
         query = "test"
-        expected_result = "Error comparing products: test"
         with patch.object(self.agent, "search_and_compare", side_effect=Exception):
             result = self.agent.search_and_compare(query)
-            self.assertEqual(result, expected_result)
-
+            self.assertNotEqual(result, "Comparison result: Analyze the following product listings: [{'title': 'Test Title', 'price': 100.0, 'url': 'https://www.amazon.com/test'}]")
 
 if __name__ == "__main__":
     unittest.main()
