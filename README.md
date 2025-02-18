@@ -44,8 +44,9 @@ To get started, follow these steps:
 
        python agent1.py
 
-The script's main function, search_and_compare, performs a product search and comparison for a hardcoded query. Modify the query in the code as needed.
-
+The script's main function, `search_and_compare`, performs a product search and comparison.
+**API Model Configuration**
+- To change the default model, you can modify the `model_name` parameter in the main block `if __name__ == "__main__":`
 ## Contributing
 
 Contributions are welcome! If you find any bugs or want to add new features, feel free to submit a pull request.
