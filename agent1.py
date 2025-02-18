@@ -197,8 +197,7 @@ class ProductSearchAgent:
     def search_and_compare(self, query: str) -> str:
         """Search and compare products"""
         search_results = self.search_tool.search_products(query)
-        comparison_result = self.comparison_tool.compare_products(search_results)
-        return comparison_result
+        return self.comparison_tool.compare_products(search_results)
 
 class ProductComparisonTool:
     """Tool for comparing and analyzing product search results"""
