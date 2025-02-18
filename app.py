@@ -3,10 +3,12 @@ import asyncio
 import aiohttp
 from bs4 import BeautifulSoup
 from typing import List, Optional
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
 from urllib.parse import quote_plus, urljoin
 import json
 import re
+from transformers import pipeline
+from flask import Flask, render_template
 
 # Configure logging
 logging.basicConfig(
@@ -147,7 +149,7 @@ class ProductSearchTool:
             logger.error(f"Error searching {platform.name}: {str(e)}", exc_info=True)
         return []
 
-    async def search_products(self, query: str) -> str:
+    async def search_products(self, query: str) -> List[Product]:
         """Search products across all platforms asynchronously"""
         all_results = []
         async with aiohttp.ClientSession() as session:
@@ -161,49 +163,44 @@ class ProductSearchTool:
 
         if not all_results:
             logger.info("No results found.")
-        return json.dumps([product.dict() for product in all_results])
+        return all_results
 
 
-class ProductComparisonTool:
-    """Tool for comparing and analyzing product search results"""
+# Use HuggingFace Transformers for product comparison
+def compare_products_with_ai(products: List[Product]) -> str:
+    # Load a pre-trained model from Hugging Face (T5, BART, etc.)
+    model_name = "t5-base"  # You can use any other suitable transformer model
+    model = pipeline("summarization", model=model_name)
 
-    def __init__(self, model_identifier: str = "gpt-3.5-turbo"):
-        self.model_identifier = model_identifier
+    # Prepare a summary input of product titles and prices
+    product_data = "\n".join(
+        [f"Product: {product.title}, Price: ${product.price}" for product in products]
+    )
 
-    def compare_products(self, search_results: str) -> str:
-        """Use model for analysis"""
-        if not search_results:
-            raise ValueError("search_results cannot be empty")
-        try:
-            prompt = f"Analyze the following product listings: {search_results}"
-            return f"Comparison result: {prompt}"
-        except Exception as e:
-            logger.error(f"Error comparing products: {str(e)}", exc_info=True)
-            return f"Error comparing products: {str(e)}"
+    # Use the transformer model to summarize and compare
+    summary = model(product_data)
+    return summary[0]["summary_text"]
 
 
-class ProductSearchAgent:
-    def __init__(self, model_name: str):
-        self.search_tool = ProductSearchTool()
-        self.comparison_tool = ProductComparisonTool()
-        self.model_name = model_name
-
-    async def search_and_compare(self, query: str) -> str:
-        search_results = await self.search_tool.search_products(query)
-        return self.comparison_tool.compare_products(search_results)
+# Flask server setup
+app = Flask(__name__)
 
 
-# Main entry point
-async def main():
-    # Initialize the Product Search Agent
-    agent = ProductSearchAgent(model_name="google/flan-t5-xxl")
-    query = input("Enter your query: ")
-    # Perform a search query
-    result = await agent.search_and_compare(query)
-    # Print the result
-    print(f"Comparison result for '{query}':\n{result}")
+@app.route("/")
+def index():
+    # Example: Searching for "laptop"
+    query = "laptop"
+    search_tool = ProductSearchTool()
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
+    products = loop.run_until_complete(search_tool.search_products(query))
+
+    # Perform product comparison using the HuggingFace model
+    comparison = compare_products_with_ai(products)
+
+    # Render results in a table and show comparison
+    return render_template("index.html", products=products, comparison=comparison)
 
 
 if __name__ == "__main__":
-    # Run the main function using asyncio
-    asyncio.run(main())
+    app.run(debug=True)

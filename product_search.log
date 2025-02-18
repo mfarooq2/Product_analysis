@@ -1,0 +1,141 @@
+2025-02-18 13:38:34,658 - __main__ - WARNING - Attempt 1 failed for https://www.amazon.com/s?k=Best+laptops+under+1000: 503, message='Service Unavailable', url='https://www.amazon.com/s?k=Best+laptops+under+1000'
+2025-02-18 13:38:35,986 - __main__ - WARNING - Attempt 2 failed for https://www.amazon.com/s?k=Best+laptops+under+1000: 503, message='Service Unavailable', url='https://www.amazon.com/s?k=Best+laptops+under+1000'
+2025-02-18 13:38:38,390 - __main__ - WARNING - Attempt 3 failed for https://www.amazon.com/s?k=Best+laptops+under+1000: 503, message='Service Unavailable', url='https://www.amazon.com/s?k=Best+laptops+under+1000'
+2025-02-18 13:38:38,390 - __main__ - ERROR - All attempts failed for https://www.amazon.com/s?k=Best+laptops+under+1000
+2025-02-18 13:38:38,392 - __main__ - INFO - No results found.
+2025-02-18 13:41:51,314 - __main__ - WARNING - Attempt 1 failed for https://www.amazon.com/s?k=laptops: 503, message='Service Unavailable', url='https://www.amazon.com/s?k=laptops'
+2025-02-18 13:41:53,464 - __main__ - WARNING - Attempt 2 failed for https://www.amazon.com/s?k=laptops: 503, message='Service Unavailable', url='https://www.amazon.com/s?k=laptops'
+2025-02-18 13:41:55,803 - __main__ - WARNING - Attempt 3 failed for https://www.amazon.com/s?k=laptops: 503, message='Service Unavailable', url='https://www.amazon.com/s?k=laptops'
+2025-02-18 13:41:55,803 - __main__ - ERROR - All attempts failed for https://www.amazon.com/s?k=laptops
+2025-02-18 13:41:55,804 - __main__ - INFO - No results found.
+2025-02-18 14:00:05,308 - __main__ - ERROR - Error parsing eBay result: could not convert string to float: '349.99549.99'
+Traceback (most recent call last):
+  File "/Users/moatasimfarooque/MEGA/Product_analysis/./agent1.py", line 95, in parse_search_results
+    product = self.extract_product_info(item)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/moatasimfarooque/MEGA/Product_analysis/./agent1.py", line 45, in extract_product_info
+    float(re.sub(r"[^\d.]", "", price_elem.text.strip()))
+ValueError: could not convert string to float: '349.99549.99'
+2025-02-18 14:00:05,313 - __main__ - ERROR - Error parsing eBay result: could not convert string to float: '239.00349.00'
+Traceback (most recent call last):
+  File "/Users/moatasimfarooque/MEGA/Product_analysis/./agent1.py", line 95, in parse_search_results
+    product = self.extract_product_info(item)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/moatasimfarooque/MEGA/Product_analysis/./agent1.py", line 45, in extract_product_info
+    float(re.sub(r"[^\d.]", "", price_elem.text.strip()))
+ValueError: could not convert string to float: '239.00349.00'
+2025-02-18 14:00:05,313 - __main__ - ERROR - Error parsing eBay result: could not convert string to float: '245.00620.00'
+Traceback (most recent call last):
+  File "/Users/moatasimfarooque/MEGA/Product_analysis/./agent1.py", line 95, in parse_search_results
+    product = self.extract_product_info(item)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/moatasimfarooque/MEGA/Product_analysis/./agent1.py", line 45, in extract_product_info
+    float(re.sub(r"[^\d.]", "", price_elem.text.strip()))
+ValueError: could not convert string to float: '245.00620.00'
+2025-02-18 14:00:05,317 - __main__ - ERROR - Error parsing eBay result: could not convert string to float: ''
+Traceback (most recent call last):
+  File "/Users/moatasimfarooque/MEGA/Product_analysis/./agent1.py", line 95, in parse_search_results
+    product = self.extract_product_info(item)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/moatasimfarooque/MEGA/Product_analysis/./agent1.py", line 45, in extract_product_info
+    float(re.sub(r"[^\d.]", "", price_elem.text.strip()))
+ValueError: could not convert string to float: ''
+2025-02-18 14:00:05,320 - __main__ - ERROR - Error parsing eBay result: could not convert string to float: '89.99179.99'
+Traceback (most recent call last):
+  File "/Users/moatasimfarooque/MEGA/Product_analysis/./agent1.py", line 95, in parse_search_results
+    product = self.extract_product_info(item)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/moatasimfarooque/MEGA/Product_analysis/./agent1.py", line 45, in extract_product_info
+    float(re.sub(r"[^\d.]", "", price_elem.text.strip()))
+ValueError: could not convert string to float: '89.99179.99'
+2025-02-18 14:00:12,422 - __main__ - WARNING - Error making request to https://www.bestbuy.com/site/searchpage.jsp?st=Laptops: 
+2025-02-18 14:02:11,938 - __main__ - ERROR - Error parsing eBay result: could not convert string to float: '349.99549.99'
+Traceback (most recent call last):
+  File "/Users/moatasimfarooque/MEGA/Product_analysis/./agent1.py", line 103, in parse_search_results
+    product = self.extract_product_info(item)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/moatasimfarooque/MEGA/Product_analysis/./agent1.py", line 47, in extract_product_info
+    float(re.sub(r"[^\d.]", "", price_elem.text.strip()))
+ValueError: could not convert string to float: '349.99549.99'
+2025-02-18 14:02:11,943 - __main__ - ERROR - Error parsing eBay result: could not convert string to float: '239.00349.00'
+Traceback (most recent call last):
+  File "/Users/moatasimfarooque/MEGA/Product_analysis/./agent1.py", line 103, in parse_search_results
+    product = self.extract_product_info(item)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/moatasimfarooque/MEGA/Product_analysis/./agent1.py", line 47, in extract_product_info
+    float(re.sub(r"[^\d.]", "", price_elem.text.strip()))
+ValueError: could not convert string to float: '239.00349.00'
+2025-02-18 14:02:11,944 - __main__ - ERROR - Error parsing eBay result: could not convert string to float: ''
+Traceback (most recent call last):
+  File "/Users/moatasimfarooque/MEGA/Product_analysis/./agent1.py", line 103, in parse_search_results
+    product = self.extract_product_info(item)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/moatasimfarooque/MEGA/Product_analysis/./agent1.py", line 47, in extract_product_info
+    float(re.sub(r"[^\d.]", "", price_elem.text.strip()))
+ValueError: could not convert string to float: ''
+2025-02-18 14:02:11,948 - __main__ - ERROR - Error parsing eBay result: could not convert string to float: '245.00620.00'
+Traceback (most recent call last):
+  File "/Users/moatasimfarooque/MEGA/Product_analysis/./agent1.py", line 103, in parse_search_results
+    product = self.extract_product_info(item)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/moatasimfarooque/MEGA/Product_analysis/./agent1.py", line 47, in extract_product_info
+    float(re.sub(r"[^\d.]", "", price_elem.text.strip()))
+ValueError: could not convert string to float: '245.00620.00'
+2025-02-18 14:02:11,953 - __main__ - ERROR - Error parsing eBay result: could not convert string to float: '89.99179.99'
+Traceback (most recent call last):
+  File "/Users/moatasimfarooque/MEGA/Product_analysis/./agent1.py", line 103, in parse_search_results
+    product = self.extract_product_info(item)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/moatasimfarooque/MEGA/Product_analysis/./agent1.py", line 47, in extract_product_info
+    float(re.sub(r"[^\d.]", "", price_elem.text.strip()))
+ValueError: could not convert string to float: '89.99179.99'
+2025-02-18 14:02:19,419 - __main__ - WARNING - Error making request to https://www.bestbuy.com/site/searchpage.jsp?st=Laptop: 
+2025-02-18 14:25:42,070 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-02-18 14:25:42,070 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-02-18 14:25:42,153 - werkzeug - INFO -  * Restarting with watchdog (fsevents)
+2025-02-18 14:25:49,519 - werkzeug - WARNING -  * Debugger is active!
+2025-02-18 14:25:49,532 - werkzeug - INFO -  * Debugger PIN: 353-133-906
+2025-02-18 14:26:35,473 - __main__ - ERROR - Error parsing eBay result: could not convert string to float: '349.99549.99'
+Traceback (most recent call last):
+  File "/Users/moatasimfarooque/MEGA/Product_analysis/app.py", line 105, in parse_search_results
+    product = self.extract_product_info(item)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/moatasimfarooque/MEGA/Product_analysis/app.py", line 49, in extract_product_info
+    float(re.sub(r"[^\d.]", "", price_elem.text.strip()))
+ValueError: could not convert string to float: '349.99549.99'
+2025-02-18 14:26:35,479 - __main__ - ERROR - Error parsing eBay result: could not convert string to float: '239.00349.00'
+Traceback (most recent call last):
+  File "/Users/moatasimfarooque/MEGA/Product_analysis/app.py", line 105, in parse_search_results
+    product = self.extract_product_info(item)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/moatasimfarooque/MEGA/Product_analysis/app.py", line 49, in extract_product_info
+    float(re.sub(r"[^\d.]", "", price_elem.text.strip()))
+ValueError: could not convert string to float: '239.00349.00'
+2025-02-18 14:26:35,481 - __main__ - ERROR - Error parsing eBay result: could not convert string to float: ''
+Traceback (most recent call last):
+  File "/Users/moatasimfarooque/MEGA/Product_analysis/app.py", line 105, in parse_search_results
+    product = self.extract_product_info(item)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/moatasimfarooque/MEGA/Product_analysis/app.py", line 49, in extract_product_info
+    float(re.sub(r"[^\d.]", "", price_elem.text.strip()))
+ValueError: could not convert string to float: ''
+2025-02-18 14:26:35,481 - __main__ - ERROR - Error parsing eBay result: could not convert string to float: '89.99179.99'
+Traceback (most recent call last):
+  File "/Users/moatasimfarooque/MEGA/Product_analysis/app.py", line 105, in parse_search_results
+    product = self.extract_product_info(item)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/moatasimfarooque/MEGA/Product_analysis/app.py", line 49, in extract_product_info
+    float(re.sub(r"[^\d.]", "", price_elem.text.strip()))
+ValueError: could not convert string to float: '89.99179.99'
+2025-02-18 14:26:35,484 - __main__ - ERROR - Error parsing eBay result: could not convert string to float: '245.00620.00'
+Traceback (most recent call last):
+  File "/Users/moatasimfarooque/MEGA/Product_analysis/app.py", line 105, in parse_search_results
+    product = self.extract_product_info(item)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/moatasimfarooque/MEGA/Product_analysis/app.py", line 49, in extract_product_info
+    float(re.sub(r"[^\d.]", "", price_elem.text.strip()))
+ValueError: could not convert string to float: '245.00620.00'
+2025-02-18 14:26:40,372 - __main__ - WARNING - Error making request to https://www.bestbuy.com/site/searchpage.jsp?st=laptop: 
+2025-02-18 14:47:16,572 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2025 14:47:16] "GET / HTTP/1.1" 200 -
+2025-02-18 14:47:28,628 - werkzeug - INFO - 127.0.0.1 - - [18/Feb/2025 14:47:28] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -

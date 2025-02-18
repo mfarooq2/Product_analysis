@@ -1,0 +1,7 @@
+2025-02-18 13:51:37,881 - __main__ - INFO - Loaded 3 proxies
+2025-02-18 13:51:37,936 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: mps
+2025-02-18 13:51:37,937 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-02-18 13:51:53,478 - __main__ - ERROR - Unexpected error during request: 'Amazon' object has no attribute 'user_agents'
+2025-02-18 13:51:56,481 - __main__ - ERROR - Unexpected error during request: 'Amazon' object has no attribute 'user_agents'
+2025-02-18 13:52:01,483 - __main__ - ERROR - Unexpected error during request: 'Amazon' object has no attribute 'user_agents'
+2025-02-18 13:52:01,485 - __main__ - INFO - No results found.

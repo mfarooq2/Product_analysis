@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Search Results</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.0/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1>Product Search Results</h1>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Price</th>
+                    <th>URL</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for product in products %}
+                <tr>
+                    <td>{{ product.title }}</td>
+                    <td>${{ product.price }}</td>
+                    <td><a href="{{ product.url }}" target="_blank">Link</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <h2>Product Comparison</h2>
+        <p>{{ comparison }}</p>
+    </div>
+</body>
+</html>
