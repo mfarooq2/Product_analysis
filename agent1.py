@@ -6,7 +6,11 @@ from pydantic import BaseModel, Field, validator
 from urllib.parse import quote_plus, urljoin
 import concurrent.futures
 from langchain.agents import initialize_agent, AgentType
-from langchain.llms import initialize_llm
+from langchain.agents import initialize_agent, AgentType
+from langchain.tools import StructuredTool, ToolType
+from transformers import pipeline
+import json
+from datetime import datetime
 from langchain.tools import StructuredTool, ToolType
 from transformers import pipeline
 import json
@@ -184,20 +188,29 @@ class ProductSearchTool:
         return json.dumps(all_results)
 
 
+class ProductSearchAgent:
+    """Tool for searching products across platforms"""
+    def __init__(self):
+        self.search_tool = ProductSearchTool()
+        self.comparison_tool = ProductComparisonTool()
+
+    def search_and_compare(self, query: str) -> str:
+        """Search and compare products"""
+        search_results = self.search_tool.search_products(query)
+        return self.comparison_tool.compare_products(search_results)
+
 class ProductComparisonTool:
     """Tool for comparing and analyzing product search results"""
 
     def __init__(self, model_identifier: str = "gpt-3.5-turbo"):
         self.model_identifier = model_identifier
 
-    def compare_products(self, search_results: str, model_name:str = None) -> str:
+    def compare_products(self, search_results: str) -> str:
         """Use HuggingFace model for analysis"""
         if not search_results:
             raise ValueError("search_results cannot be empty")
         try:
             prompt = f"Analyze the following product listings: {search_results}"
-            if model_name:
-                prompt = f"Model name : {model_name} Analyze the following product listings: {search_results}"
             return f"Comparison result: {prompt}"
         except Exception as e:
             logger.error(f"Error comparing products: {str(e)}", exc_info=True)
@@ -205,9 +218,10 @@ class ProductComparisonTool:
 
 
 
+
 if __name__ == "__main__":
     # Initialize the Product Search Agent
-    agent = ProductSearchAgent(model_name="google/flan-t5-xxl")
+    agent = ProductSearchAgent()
     query = input("Enter your query: ")
     # Perform a search query
 
@@ -218,6 +232,7 @@ if __name__ == "__main__":
 
 class ProductComparisonTool:
     """Tool for comparing and analyzing product search results"""
+
 
     def __init__(self, model_identifier: str = "gpt-3.5-turbo"):
         self.model_identifier = model_identifier
