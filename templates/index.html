@@ -46,7 +46,13 @@
                 {% for product in products %}
                 <tr>
                     <td>{{ product.title }}</td>
-                    <td>${{ product.price }}</td>
+                    <td>
+                        {% if product.price is not none %}
+                            ${{ product.price }}
+                        {% else %}
+                            N/A
+                        {% endif %}
+                    </td>
                     <td><a href="{{ product.url }}" target="_blank">Link</a></td>
                     <td>{{ product.specs }}</td>
                     <td>
