@@ -30,6 +30,53 @@
 
         <h2>Product Comparison</h2>
         <p>{{ comparison }}</p>
+        <h2>Product Details</h2>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Price</th>
+                    <th>URL</th>
+                    <th>Specs</th>
+                    <th>Pros</th>
+                    <th>Cons</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for product in products %}
+                <tr>
+                    <td>{{ product.title }}</td>
+                    <td>
+                        {% if product.price is not none %}
+                            ${{ product.price }}
+                        {% else %}
+                            N/A
+                        {% endif %}
+                    </td>
+                    <td><a href="{{ product.url }}" target="_blank">Link</a></td>
+                    <td>{{ product.specs }}</td>
+                    <td>
+                        {% if product.pros %}
+                            <ul>
+                            {% for pro in product.pros %}
+                                <li>{{ pro }}</li>
+                            {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if product.cons %}
+                            <ul>
+                            {% for con in product.cons %}
+                                <li>{{ con }}</li>
+                            {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
 </body>
 </html>
