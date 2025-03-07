@@ -1,0 +1,6 @@
+openai
+groq
+matplotlib
+numpy
+pandas
+torch
