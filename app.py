@@ -193,29 +193,62 @@ def process_product_image(image, num_variations=2):
     # Use environment variables for API keys
     openai_api_key = OPENAI_API_KEY
     groq_api_key = GROQ_API_KEY
-
+    
+    with gr.Blocks() as progress_block:
+        gr.Markdown("## Progress")
+        progress_bar = gr.Textbox(label="Progress", interactive=False)
+        
+    # Create the history to store data
+    history_data = {
+        "caption": "",
+        "title": "",
+        "description": "",
+        "image": None,
+        "variations": [],
+        "description_images": [],
+    }
+    
     # Generate product details
     caption = generate_product_details(image, groq_api_key)
-
+    history_data["caption"] = caption
+    progress_bar.value = "Processing"
+    
     # Optimize title
     optimized_title = optimize_title(caption, groq_api_key)
+    history_data["title"] = optimized_title
+    progress_bar.value = "Processing"
 
     # Generate product description
     product_description = generate_product_description(optimized_title, groq_api_key)
+    history_data["description"] = product_description
+    progress_bar.value = "Processing"
 
     # Create image variations - use num_variations
     image_variations = create_image_variation(image, openai_api_key, n=num_variations)
+    history_data["variations"] = image_variations
+    progress_bar.value = "Processing"
+    
     product_description_variations = generate_description_variations(
         product_description, groq_api_key
     )
+    progress_bar.value = "Processing"
 
     # Create images from description - use num_variations
     description_images = create_images_from_variations(
         product_description_variations, openai_api_key, n=num_variations
     )
+    history_data["description_images"] = description_images
+    progress_bar.value = "Processing"
 
     # Combine all images for gallery - total will be 2*num_variations
     all_images = image_variations + description_images
+    history_data["all_images"] = all_images
+    progress_bar.value = "Done"
+    
+    add_to_history(history_data)
+    
+    #add the image to the history
+    history_data["image"]=image
 
     return caption, optimized_title, product_description, image, all_images
 
@@ -226,9 +259,9 @@ with gr.Blocks(title="E-commerce Product Image Processor") as demo:
     gr.Markdown(
         "Upload a product image and get AI-generated marketing content and image variations"
     )
-
     with gr.Row():
         with gr.Column():
+            gr.Markdown("## Input")
             image_input = gr.Image(label="Upload Product Image", type="pil")
 
             # Updated slider with minimum 2, step size 2, default 2
@@ -241,22 +274,55 @@ with gr.Blocks(title="E-commerce Product Image Processor") as demo:
             )
 
             process_button = gr.Button("Process Image")
-
         with gr.Column():
+            gr.Markdown("## Output")
             original_image = gr.Image(label="Original Image")
             caption_output = gr.Textbox(label="Generated Caption")
             title_output = gr.Textbox(label="Optimized Title")
             description_output = gr.Textbox(label="Product Description")
+            text_input = gr.Textbox(label="Text Input")
 
         # Gallery will display 2*num_variations images with one image per column
         image_gallery = gr.Gallery(
             label="Image Variations & Generated Images",
             show_label=True,
-            columns=5,
-            rows=2,
-            height="auto",
+            columns=2,
+            rows=1,
+            height="600",
         )
 
+    gr.Markdown("## How to use")
+    gr.Markdown(
+        """
+    ### Instructions
+    1. Upload a product image
+    2. Select number of image variations (2-10, in steps of 2)
+    3. Click 'Process Image' to generate marketing content and image variations
+    4. Use the generated content for your e-commerce listings
+    
+    **Note**: This application requires OPENAI_API_KEY and GROQ_API_KEY environment variables to be set.
+    
+    **The gallery will display**:
+    - First half: Image variations based on your original image
+    - Second half: New images generated based on the product description
+    """
+    )
+    gr.Markdown("## Gallery")
+    gr.Markdown("### Instructions")
+    gr.Markdown("""
+    #### Note
+    This application requires OPENAI_API_KEY and GROQ_API_KEY environment variables to be set.
+    """)
+    gr.Markdown("""
+    **The gallery will display**:
+    - First half: Image variations based on your original image
+    - Second half: New images generated based on the product description
+    """)
+    history_section = gr.Dataframe(label="History", interactive=False)
+
+    def update_history():
+        return get_history()
+    
     process_button.click(
         fn=process_product_image,
         inputs=[image_input, num_variations],
@@ -268,6 +334,17 @@ with gr.Blocks(title="E-commerce Product Image Processor") as demo:
             image_gallery,
         ],
     )
+    
+    process_button.click(update_history, outputs=[history_section])
+    
+    download_button = gr.Button("Download Images")
+    
+    def download_images(images):
+        for i, image in enumerate(images):
+            img = Image.fromarray(image)
+            img.save(f"image_{i}.png")
+        return "Images Downloaded"
+    download_button.click(download_images, inputs=[image_gallery], outputs=[])
 
     gr.Markdown("## How to use")
     gr.Markdown(
@@ -285,5 +362,14 @@ with gr.Blocks(title="E-commerce Product Image Processor") as demo:
     """
     )
 
+# Function to store data in the history
+history = []
+
+def add_to_history(data):
+    history.append(data)
+    
+def get_history():
+    return history
+    
 if __name__ == "__main__":
     demo.launch()
