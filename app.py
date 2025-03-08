@@ -340,9 +340,9 @@ with gr.Blocks(title="E-commerce Product Image Processor") as demo:
     download_button = gr.Button("Download Images")
     
     def download_images(images):
-        for image in images:
+        for i, image in enumerate(images):
             img = Image.fromarray(image)
-            img.save(f"image_{images.index(image)}.png")
+            img.save(f"image_{i}.png")
         return "Images Downloaded"
     download_button.click(download_images, inputs=[image_gallery], outputs=[])
 
